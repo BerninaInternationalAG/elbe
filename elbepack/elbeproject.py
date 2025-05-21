@@ -794,6 +794,7 @@ class ElbeProject:
                 do(['pdebuild',
                     '--configfile', os.path.join(self.builddir, 'pbuilderrc'),
                     '--use-pdebuild-internal',
+                    '--debbuildopts', '-sa -jauto',
                     '--buildresult', os.path.join(self.builddir, 'pbuilder', 'result')],
                    cwd=os.path.join(self.builddir, 'pdebuilder', 'current'),
                    env_add=debuild_env)
