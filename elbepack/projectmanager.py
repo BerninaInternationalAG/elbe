@@ -36,6 +36,7 @@ class ProjectManager:
         self.basepath = basepath    # Base path for new projects
         self.db = ElbeDB()          # Database of projects and users
         self.worker = AsyncWorker(self.db)
+        self.orig_files = {}
 
     def stop(self):
         self.worker.stop()
@@ -76,6 +77,7 @@ class ProjectManager:
 
         if not allow_busy:
             self._assert_not_busy(ep)
+        ep.orig_fname = self.orig_files.get(builddir, None)
         return ep
 
     def del_project(self, builddir):
@@ -133,6 +135,7 @@ class ProjectManager:
             raise InvalidState('No pbuilder exists: run "elbe pbuilder '
                                f'create --project {ep.builddir}" first')
 
+        self.orig_files[builddir] = fname
         ep.orig_fname = fname
         ep.orig_files.append(fname)
 
